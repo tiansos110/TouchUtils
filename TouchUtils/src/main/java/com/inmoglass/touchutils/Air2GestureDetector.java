@@ -296,24 +296,24 @@ public class Air2GestureDetector {
 
     /*---------------------左TP keyCode事件-------------------*/
     public interface LeftTpSlipActionListener {
-        void backSlipL();
+        void onBackSlipL();
 
-        void frontSlipL();
+        void onFrontSlipL();
 
-        void downSlipL();
+        void onDownSlipL();
 
-        void upSlipL();
+        void onUpSlipL();
     }
 
     /*---------------------右TP keyCode事件-------------------*/
     public interface RightTpSlipActionListener {
-        void backSlipR();
+        void onBackSlipR();
 
-        void frontSlipR();
+        void onFrontSlipR();
 
         void onAirBackPressed();
 
-        void upSlipR();
+        void onUpSlipR();
     }
 
     /**
@@ -342,27 +342,27 @@ public class Air2GestureDetector {
         switch (keyCode) {
             case KEYCODE_INMO_BACKSLIP_L://左后滑
                 if (leftTpSlipActionListener != null) {
-                    leftTpSlipActionListener.backSlipL();
+                    leftTpSlipActionListener.onBackSlipL();
                 }
                 break;
             case KEYCODE_INMO_BACKSLIP_R://右后滑
                 if (rightTpSlipActionListener != null) {
-                    rightTpSlipActionListener.backSlipR();
+                    rightTpSlipActionListener.onBackSlipR();
                 }
                 break;
             case KEYCODE_INNO_FRONTSLIP_L://左前滑
                 if (leftTpSlipActionListener != null) {
-                    leftTpSlipActionListener.frontSlipL();
+                    leftTpSlipActionListener.onFrontSlipL();
                 }
                 break;
             case KEYCODE_INNO_FRONTSLIP_R://右前滑
                 if (rightTpSlipActionListener != null) {
-                    rightTpSlipActionListener.frontSlipR();
+                    rightTpSlipActionListener.onFrontSlipR();
                 }
                 break;
             case KEYCODE_INNO_DOWNSLIP_L://左下滑
                 if (leftTpSlipActionListener != null) {
-                    leftTpSlipActionListener.downSlipL();
+                    leftTpSlipActionListener.onDownSlipL();
                 }
                 break;
             case KEYCODE_INNO_DOWNSLIP_R://右下滑,定义为返回
@@ -372,12 +372,12 @@ public class Air2GestureDetector {
                 break;
             case KEYCODE_INNO_UPSLIP_L://左上滑
                 if (leftTpSlipActionListener != null) {
-                    leftTpSlipActionListener.upSlipL();
+                    leftTpSlipActionListener.onUpSlipL();
                 }
                 break;
             case KEYCODE_INNO_UPSLIP_R://右上滑
                 if (rightTpSlipActionListener != null) {
-                    rightTpSlipActionListener.upSlipR();
+                    rightTpSlipActionListener.onUpSlipR();
                 }
                 break;
         }
