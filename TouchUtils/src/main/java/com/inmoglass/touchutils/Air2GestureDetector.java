@@ -28,7 +28,7 @@ public class Air2GestureDetector {
     private GestureDetector leftGestureDetector;
     private GestureDetector rightGestureDetector;
 
-    interface OnLeftTpGestureListener {
+    public interface OnLeftTpGestureListener {
         boolean onLeftDown(MotionEvent e);
 
         void onLeftShowPress(MotionEvent e);
@@ -48,7 +48,7 @@ public class Air2GestureDetector {
         this.onLeftTpGestureListener = leftTpOnGestureListener;
     }
 
-    interface OnRightTpGestureListener {
+    public interface OnRightTpGestureListener {
         boolean onRightDown(MotionEvent e);
 
         void onRightShowPress(MotionEvent e);
@@ -68,7 +68,7 @@ public class Air2GestureDetector {
         this.OnRightTpGestureListener = onRightTpGestureListener;
     }
 
-    interface OnLeftTpDoubleTapListener {
+    public interface OnLeftTpDoubleTapListener {
         boolean onLeftSingleTapConfirmed(MotionEvent e);
 
         boolean onLeftDoubleTap(MotionEvent e);
@@ -84,7 +84,7 @@ public class Air2GestureDetector {
         leftGestureDetector.setOnDoubleTapListener(onDoubleTapLeftListener);
     }
 
-    interface OnRightTpDoubleTapListener {
+    public interface OnRightTpDoubleTapListener {
         boolean onRightSingleTapConfirmed(MotionEvent e);
 
         boolean onRightDoubleTap(MotionEvent e);
@@ -272,7 +272,7 @@ public class Air2GestureDetector {
     }
 
     /*-----------------------开发者自己处理onTouchEvent事件---------------------*/
-    interface OnTpTouchEventListener {
+    public interface OnTpTouchEventListener {
         void onRightTpTouchEvent(MotionEvent event);
 
         void onLeftTpTouchEvent(MotionEvent event);
@@ -296,23 +296,47 @@ public class Air2GestureDetector {
 
     /*---------------------左TP keyCode事件-------------------*/
     public interface LeftTpSlipActionListener {
+        /**
+         * 左-后滑
+         */
         void onBackSlipL();
 
+        /**
+         * 左-前滑动
+         */
         void onFrontSlipL();
 
+        /**
+         * 左-下滑
+         */
         void onDownSlipL();
 
+        /**
+         * 左-上滑
+         */
         void onUpSlipL();
     }
 
     /*---------------------右TP keyCode事件-------------------*/
     public interface RightTpSlipActionListener {
+        /**
+         * 右-后滑
+         */
         void onBackSlipR();
 
+        /**
+         * 右-前滑
+         */
         void onFrontSlipR();
 
+        /**
+         * 右-下滑-返回
+         */
         void onAirBackPressed();
 
+        /**
+         * 右-上滑
+         */
         void onUpSlipR();
     }
 
