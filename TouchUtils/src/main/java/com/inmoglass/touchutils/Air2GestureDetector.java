@@ -406,4 +406,141 @@ public class Air2GestureDetector {
                 break;
         }
     }
+
+    /*-------------------------触摸事件监听-------------------------*/
+    public interface OnAirLeftTpTouchListener {
+        /**
+         * 左右滑动
+         *
+         * @param ev
+         */
+        void onLeftTpLRSliding(MotionEvent ev);
+
+        /**
+         * 单指触摸
+         *
+         * @param ev
+         */
+        void onLeftTpSingleTouch(MotionEvent ev);
+
+        /**
+         * 双指触摸
+         *
+         * @param ev
+         */
+        void onLeftTpDoubleTouch(MotionEvent ev);
+    }
+
+    public static OnAirLeftTpTouchListener onAirLeftTpTouchListener;
+
+
+    public interface OnAirRightTpTouchListener {
+        /**
+         * 左右滑动
+         *
+         * @param ev
+         */
+        void onRightTpLRSliding(MotionEvent ev);
+
+        /**
+         * 单指触摸
+         *
+         * @param ev
+         */
+        void onRightTpSingleTouch(MotionEvent ev);
+
+        /**
+         * 双指触摸
+         *
+         * @param ev
+         */
+        void onRightTpDoubleTouch(MotionEvent ev);
+    }
+
+    public static OnAirRightTpTouchListener onAirRightTpTouchListener;
+
+
+    private static float downX, downY;
+    private static final float SLIDE_ANGLE = 45;
+    private static boolean mIsSlideHorizontally;//是否是水平滑动
+
+
+    public static void dispatchTouchEvent(MotionEvent ev) {
+        if (onAirLeftTpTouchListener != null && ev.getDeviceId() == TP_LEFT) {
+            if (ev.getPointerCount() == 1) {
+                onAirLeftTpTouchListener.onLeftTpSingleTouch(ev);
+            } else if (ev.getPointerCount() == 2) {
+                onAirLeftTpTouchListener.onLeftTpDoubleTouch(ev);
+            }
+        }
+
+        if (onAirRightTpTouchListener != null && ev.getDeviceId() == TP_RIGHT) {
+            if (ev.getPointerCount() == 1) {
+                onAirRightTpTouchListener.onRightTpSingleTouch(ev);
+            } else if (ev.getPointerCount() == 2) {
+                onAirRightTpTouchListener.onRightTpDoubleTouch(ev);
+            }
+        }
+
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                downX = ev.getX();
+                downY = ev.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_UP:
+                float moveX = ev.getX();
+                float moveY = ev.getY();
+
+                float xDiff = Math.abs(moveX - downX);
+                float yDiff = Math.abs(moveY - downY);
+
+                double squareRoot = Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+
+                //滑动的角度
+                int yAngle = Math.round((float) (Math.asin(yDiff / squareRoot) / Math.PI * 180));
+                int xAngle = Math.round((float) (Math.asin(xDiff / squareRoot) / Math.PI * 180));
+
+                boolean isMeetSlidingYAngle = yAngle > SLIDE_ANGLE;//滑动角度是否大于45du
+                boolean isMeetSlidingXAngle = xAngle > SLIDE_ANGLE;//滑动角度是否大于45du
+
+                boolean isSlideUp = moveY < downY && isMeetSlidingYAngle;
+                boolean isSlideDown = moveY > downY && isMeetSlidingYAngle;
+                boolean isSlideLeft = moveX < downX && isMeetSlidingXAngle;
+                boolean isSlideRight = moveX > downX && isMeetSlidingXAngle;
+
+                if (isSlideUp) {
+                    mIsSlideHorizontally = false;
+                } else if (isSlideDown) {
+                    mIsSlideHorizontally = false;
+                } else if (isSlideLeft) {
+                    mIsSlideHorizontally = true;
+                    if (onAirLeftTpTouchListener != null && ev.getDeviceId() == TP_LEFT) {
+                        onAirLeftTpTouchListener.onLeftTpLRSliding(ev);
+                    }
+                    if (onAirRightTpTouchListener != null && ev.getDeviceId() == TP_RIGHT) {
+                        onAirRightTpTouchListener.onRightTpLRSliding(ev);
+                    }
+                } else if (isSlideRight) {
+                    mIsSlideHorizontally = true;
+                    if (onAirLeftTpTouchListener != null && ev.getDeviceId() == TP_LEFT) {
+                        onAirLeftTpTouchListener.onLeftTpLRSliding(ev);
+                    }
+                    if (onAirRightTpTouchListener != null && ev.getDeviceId() == TP_RIGHT) {
+                        onAirRightTpTouchListener.onRightTpLRSliding(ev);
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static void registerLeftTpTouchListener(OnAirLeftTpTouchListener onAirLeftTpTouchListener) {
+        Air2GestureDetector.onAirLeftTpTouchListener = onAirLeftTpTouchListener;
+    }
+
+    public static void registerRightTpTouchListener(OnAirRightTpTouchListener onAirRightTpTouchListener) {
+        Air2GestureDetector.onAirRightTpTouchListener = onAirRightTpTouchListener;
+    }
 }
