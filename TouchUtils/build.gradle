@@ -33,7 +33,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.inmo'
                 artifactId = 'touchutils'
-                version = '1.0.7'
+                version = '1.0.8'
             }
         }
     }
