@@ -16,7 +16,7 @@ public class SingleTapUtil {
 
     private SingleTapListener mSingleTapListener;
 
-    private void processSingleTap(MotionEvent event) {
+    public void processSingleTap(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             mDownTime = System.currentTimeMillis();
             mDownX = event.getX();
