@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 /**
  * @author Jack
  * @date 2022/10/10 15:10
+ * 单击事件零时处理
  */
 public class SingleTapUtil {
 

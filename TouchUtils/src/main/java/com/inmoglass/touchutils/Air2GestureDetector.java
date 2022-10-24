@@ -9,8 +9,8 @@ import android.view.MotionEvent;
  * @Description:手势操作帮助类
  */
 public class Air2GestureDetector {
-    private static final int TP_LEFT = 3;
-    private static final int TP_RIGHT = 1;
+    private static final int TP_LEFT = 1;
+    private static final int TP_RIGHT = 2;
 
     public static final int KEYCODE_GESTURE_BASE = 314;
     public static final int KEYCODE_INMO_BACKSLIP_L = KEYCODE_GESTURE_BASE + 0;
@@ -261,7 +261,8 @@ public class Air2GestureDetector {
     };
 
     public void onTouchEventGestureDetector(MotionEvent event) {
-        switch (event.getDeviceId()) {
+        int slot = (event.getMetaState() & 0xff000000) >> 24;
+        switch (slot) {
             case TP_LEFT:
                 leftGestureDetector.onTouchEvent(event);
                 break;
@@ -279,7 +280,8 @@ public class Air2GestureDetector {
     }
 
     public static void onTouchEvent(MotionEvent event, OnTpTouchEventListener onTpTouchEventListener) {
-        switch (event.getDeviceId()) {
+        int slot = (event.getMetaState() & 0xff000000) >> 24;
+        switch (slot) {
             case TP_LEFT:
                 if (onTpTouchEventListener != null) {
                     onTpTouchEventListener.onLeftTpTouchEvent(event);
@@ -429,11 +431,12 @@ public class Air2GestureDetector {
     private static final int FINGER_DOUBLE = 2;
 
     public static void dispatchTouchEvent(MotionEvent ev) {
+        int slot = (ev.getMetaState() & 0xff000000) >> 24;
         if (airTouchListener != null) {
             if (ev.getPointerCount() == FINGER_SINGLE) {
-                if (ev.getDeviceId() == TP_LEFT) {
+                if (slot == TP_LEFT) {
                     airTouchListener.onLeftEvent(ev);
-                } else if (ev.getDeviceId() == TP_RIGHT) {
+                } else if (slot == TP_RIGHT) {
                     airTouchListener.onRightEvent(ev);
                 }
             }
